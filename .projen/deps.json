@@ -1,7 +1,27 @@
 {
   "dependencies": [
     {
+      "name": "@aws-lambda-powertools/parameters",
+      "type": "build"
+    },
+    {
+      "name": "@aws-sdk/client-sqs",
+      "type": "build"
+    },
+    {
+      "name": "@aws-sdk/client-ssm",
+      "type": "build"
+    },
+    {
+      "name": "@types/aws-lambda",
+      "type": "build"
+    },
+    {
       "name": "@types/jest",
+      "type": "build"
+    },
+    {
+      "name": "@types/node-telegram-bot-api",
       "type": "build"
     },
     {
@@ -21,7 +41,7 @@
     },
     {
       "name": "aws-cdk",
-      "version": "^2.1.0",
+      "version": "^2.87.0",
       "type": "build"
     },
     {
@@ -55,6 +75,10 @@
       "type": "build"
     },
     {
+      "name": "node-telegram-bot-api",
+      "type": "build"
+    },
+    {
       "name": "npm-check-updates",
       "version": "^16",
       "type": "build"
@@ -77,7 +101,7 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.1.0",
+      "version": "^2.87.0",
       "type": "runtime"
     },
     {
