@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import { SSMProvider } from '@aws-lambda-powertools/parameters/ssm';
-import { CdkCustomResourceResponse } from 'aws-lambda';
+import { CdkCustomResourceEvent, CdkCustomResourceResponse } from 'aws-lambda';
 import TelegramBot from 'node-telegram-bot-api';
 import { TelegramWebhookResourceProperties } from './register-webhook';
 
@@ -23,16 +23,14 @@ export const getTelegramToken = async (parameterName: string): Promise<string> =
   }
 };
 
-interface CustomResourceEvent {
-  ResourceProperties: TelegramWebhookResourceProperties;
-  RequestType: 'Create' | 'Update' | 'Delete';
+interface ResourceProperties extends TelegramWebhookResourceProperties {
+  ServiceToken: string;
 }
 
-
-export async function handler(event: CustomResourceEvent): Promise<CdkCustomResourceResponse> {
+export async function handler(event: CdkCustomResourceEvent): Promise<CdkCustomResourceResponse> {
   console.log('Received event:', JSON.stringify(event, null, 2));
 
-  const properties: TelegramWebhookResourceProperties = event.ResourceProperties;
+  const properties: ResourceProperties = event.ResourceProperties as ResourceProperties;
 
   try {
     const token = await getTelegramToken(properties.tokenParameterName);
