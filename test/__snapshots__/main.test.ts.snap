@@ -386,7 +386,7 @@ exports[`LinkSanitizer stack 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "24de3b1d7721e0e621df7f9128feabe1de7cf307c7cb03a0d3e78acc63fbdeea.zip",
+          "S3Key": "320694b6d3a6c6eaae3423cd0767e41b80ffba8bf73eaba34b4520856ac2222c.zip",
         },
         "Description": "src/handle-message.lambda.ts",
         "Environment": {
@@ -495,7 +495,7 @@ exports[`LinkSanitizer stack 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "3398dc73bff86166d0bd8466f79c7cbf58e53e518db280e4f9b66e47d4347673.zip",
+          "S3Key": "ec11472755a90f53cb93da88511b310a7f680f286b2f03ab2d4dbedb44dce34d.zip",
         },
         "Description": "src/send-message.lambda.ts",
         "Environment": {
@@ -634,6 +634,257 @@ exports[`LinkSanitizer stack 1`] = `
         },
       },
       "Type": "AWS::Lambda::EventSourceMapping",
+    },
+    "Webhook": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "WebhookProviderframeworkonEventA9527C6B",
+            "Arn",
+          ],
+        },
+        "tokenParameterName": "MyToken",
+        "webhookURL": {
+          "Fn::Join": [
+            "",
+            [
+              "https://",
+              {
+                "Ref": "ApiF70053CD",
+              },
+              ".execute-api.",
+              {
+                "Ref": "AWS::Region",
+              },
+              ".",
+              {
+                "Ref": "AWS::URLSuffix",
+              },
+              "/",
+              {
+                "Ref": "ApiDeploymentStageprod3EB9684E",
+              },
+              "/",
+            ],
+          ],
+        },
+      },
+      "Type": "Custom::TelegramBotWebhook",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "WebhookHandler0697217E": {
+      "DependsOn": [
+        "WebhookHandlerServiceRoleDefaultPolicy5B9DDF0F",
+        "WebhookHandlerServiceRole82D8E58D",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "be72627956082b34daea4dc38d5366dc878f5f239ab70fcac30e739998fa625f.zip",
+        },
+        "Description": "src/register-webhook.lambda.ts",
+        "Environment": {
+          "Variables": {
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "WebhookHandlerServiceRole82D8E58D",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs16.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "WebhookHandlerServiceRole82D8E58D": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "WebhookHandlerServiceRoleDefaultPolicy5B9DDF0F": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ssm:DescribeParameters",
+                "ssm:GetParameters",
+                "ssm:GetParameter",
+                "ssm:GetParameterHistory",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ssm:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":parameter/MyToken",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "WebhookHandlerServiceRoleDefaultPolicy5B9DDF0F",
+        "Roles": [
+          {
+            "Ref": "WebhookHandlerServiceRole82D8E58D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "WebhookProviderframeworkonEventA9527C6B": {
+      "DependsOn": [
+        "WebhookProviderframeworkonEventServiceRoleDefaultPolicy4B4F71B4",
+        "WebhookProviderframeworkonEventServiceRole483AC2AF",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+        },
+        "Description": "AWS CDK resource provider framework - onEvent (test/Webhook/Provider)",
+        "Environment": {
+          "Variables": {
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "WebhookHandler0697217E",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "Role": {
+          "Fn::GetAtt": [
+            "WebhookProviderframeworkonEventServiceRole483AC2AF",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "WebhookProviderframeworkonEventServiceRole483AC2AF": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "WebhookProviderframeworkonEventServiceRoleDefaultPolicy4B4F71B4": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "WebhookHandler0697217E",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "WebhookHandler0697217E",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "WebhookProviderframeworkonEventServiceRoleDefaultPolicy4B4F71B4",
+        "Roles": [
+          {
+            "Ref": "WebhookProviderframeworkonEventServiceRole483AC2AF",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
   },
   "Rules": {

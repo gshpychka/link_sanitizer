@@ -20,6 +20,7 @@
 /package.json linguist-generated
 /pnpm-lock.yaml linguist-generated
 /src/handle-message-function.ts linguist-generated
+/src/register-webhook-function.ts linguist-generated
 /src/send-message-function.ts linguist-generated
 /tsconfig.dev.json linguist-generated
 /tsconfig.json linguist-generated

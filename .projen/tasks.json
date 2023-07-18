@@ -32,6 +32,9 @@
           "spawn": "bundle:handle-message.lambda"
         },
         {
+          "spawn": "bundle:register-webhook.lambda"
+        },
+        {
           "spawn": "bundle:send-message.lambda"
         }
       ]
@@ -51,6 +54,24 @@
       "steps": [
         {
           "exec": "esbuild --bundle src/handle-message.lambda.ts --target=\"node16\" --platform=\"node\" --outfile=\"assets/handle-message.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:aws-sdk --watch"
+        }
+      ]
+    },
+    "bundle:register-webhook.lambda": {
+      "name": "bundle:register-webhook.lambda",
+      "description": "Create a JavaScript bundle from src/register-webhook.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/register-webhook.lambda.ts --target=\"node16\" --platform=\"node\" --outfile=\"assets/register-webhook.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:aws-sdk"
+        }
+      ]
+    },
+    "bundle:register-webhook.lambda:watch": {
+      "name": "bundle:register-webhook.lambda:watch",
+      "description": "Continuously update the JavaScript bundle from src/register-webhook.lambda.ts",
+      "steps": [
+        {
+          "exec": "esbuild --bundle src/register-webhook.lambda.ts --target=\"node16\" --platform=\"node\" --outfile=\"assets/register-webhook.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:aws-sdk --watch"
         }
       ]
     },

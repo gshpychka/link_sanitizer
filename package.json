@@ -5,6 +5,8 @@
     "bundle": "npx projen bundle",
     "bundle:handle-message.lambda": "npx projen bundle:handle-message.lambda",
     "bundle:handle-message.lambda:watch": "npx projen bundle:handle-message.lambda:watch",
+    "bundle:register-webhook.lambda": "npx projen bundle:register-webhook.lambda",
+    "bundle:register-webhook.lambda:watch": "npx projen bundle:register-webhook.lambda:watch",
     "bundle:send-message.lambda": "npx projen bundle:send-message.lambda",
     "bundle:send-message.lambda:watch": "npx projen bundle:send-message.lambda:watch",
     "clobber": "npx projen clobber",

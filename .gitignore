@@ -52,4 +52,5 @@ junit.xml
 .cdk.staging/
 .parcel-cache/
 !/src/handle-message-function.ts
+!/src/register-webhook-function.ts
 !/src/send-message-function.ts

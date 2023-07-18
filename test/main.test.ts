@@ -24,9 +24,10 @@ test('LinkSanitizer stack', () => {
 
   expect(queues).toHaveProperty(queueId);
 
-  // Check there are two Lambda functions created
+  // Check there are four Lambda functions created
+  // Message Handler, Sender, Webhook Creator Provider & Handler
   const lambdas = template.findResources('AWS::Lambda::Function', {});
-  expect(Object.keys(lambdas)).toHaveLength(2);
+  expect(Object.keys(lambdas)).toHaveLength(4);
 
   const messageHandlerLambda = lambdas[messageHandlerId];
   expect(messageHandlerLambda).toBeDefined();

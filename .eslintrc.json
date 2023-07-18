@@ -149,6 +149,7 @@
           "**/test/**",
           "**/build-tools/**",
           "src/handle-message.lambda.ts",
+          "src/register-webhook.lambda.ts",
           "src/send-message.lambda.ts",
           ".projenrc.ts",
           "projenrc/**/*.ts"

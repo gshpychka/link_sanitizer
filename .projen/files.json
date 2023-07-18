@@ -16,6 +16,7 @@
     "cdk.json",
     "LICENSE",
     "src/handle-message-function.ts",
+    "src/register-webhook-function.ts",
     "src/send-message-function.ts",
     "tsconfig.dev.json",
     "tsconfig.json"

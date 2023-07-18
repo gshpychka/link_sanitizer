@@ -6,6 +6,7 @@ import * as ssm from 'aws-cdk-lib/aws-ssm';
 import { Construct } from 'constructs';
 import { envVars } from './constants';
 import { HandleMessageFunction } from './handle-message-function';
+import { TelegramBotWebhook } from './register-webhook';
 import { SendMessageFunction } from './send-message-function';
 
 interface LinkSanitizerProps extends StackProps {
@@ -63,7 +64,12 @@ export class LinkSanitizer extends Stack {
       { batchSize: 1, maxConcurrency: 2 },
     );
     messageSender.addEventSource(queueSource);
-    new apigw.LambdaRestApi(this, 'Api', { handler: messageHandler, proxy: true });
+
+    const api = new apigw.LambdaRestApi(this, 'Api', { handler: messageHandler, proxy: true });
+
+    new TelegramBotWebhook(this, 'Webhook', {
+      telegramToken: { parameter: this.telegramToken }, webhookUrl: api.url,
+    });
   }
 }
 
