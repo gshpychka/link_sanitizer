@@ -18,6 +18,11 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     'node-telegram-bot-api',
     '@types/node-telegram-bot-api',
   ],
+  readme: {
+    contents: `
+    # Telegram bot that stips tracking parameters from links
+    `,
+  },
   lambdaOptions: { bundlingOptions: { externals: ['aws-sdk'] } },
   // packageName: undefined,  /* The "name" in package.json. */
 });
