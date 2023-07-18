@@ -2,7 +2,7 @@ import { SendMessageCommand } from '@aws-sdk/client-sqs';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 // import { APIGatewayProxyEvent } from 'aws-lambda';
 import { Message } from 'node-telegram-bot-api';
-import { messageHandlerEnvVars } from '../src/constants';
+import { envVars } from '../src/constants';
 import {
   getUrlParamBlacklist,
   sendCleanedUrls,
@@ -23,7 +23,7 @@ describe('getUrlParamBlackList', () => {
     jest.clearAllMocks();
   });
   it('should return blacklist from env variable', () => {
-    process.env[messageHandlerEnvVars.urlBlackList] = '["utm_source", "utm_medium"]';
+    process.env[envVars.urlBlackList] = '["utm_source", "utm_medium"]';
     expect(getUrlParamBlacklist()).toEqual(['utm_source', 'utm_medium']);
   });
 });
@@ -31,7 +31,7 @@ describe('getUrlParamBlackList', () => {
 describe('sendCleanedUrls', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    process.env[messageHandlerEnvVars.messageQueueUrl] = 'http://localhost:3000/sqs';
+    process.env[envVars.messageQueueUrl] = 'http://localhost:3000/sqs';
   });
 
   it('should send a message with one URL', async () => {
@@ -39,7 +39,7 @@ describe('sendCleanedUrls', () => {
     const mockUrls = ['http://example.com'];
     await sendCleanedUrls(mockMessage, mockUrls);
     expect(SendMessageCommand).toHaveBeenCalledWith({
-      QueueUrl: process.env[messageHandlerEnvVars.messageQueueUrl],
+      QueueUrl: process.env[envVars.messageQueueUrl],
       MessageBody: JSON.stringify({
         chatId: mockMessage.chat.id,
         text: 'Ось лінк без трекінгу: http://example.com',
@@ -53,7 +53,7 @@ describe('sendCleanedUrls', () => {
     const mockUrls = ['http://example.com', 'http://another.com'];
     await sendCleanedUrls(mockMessage, mockUrls);
     expect(SendMessageCommand).toHaveBeenCalledWith({
-      QueueUrl: process.env[messageHandlerEnvVars.messageQueueUrl],
+      QueueUrl: process.env[envVars.messageQueueUrl],
       MessageBody: JSON.stringify({
         chatId: mockMessage.chat.id,
         text: 'Ось лінки без трекінгу: http://example.com, http://another.com',

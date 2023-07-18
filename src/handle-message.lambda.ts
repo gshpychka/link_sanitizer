@@ -2,18 +2,18 @@ import { parse as urlparse, UrlWithParsedQuery, format as urlformat } from 'url'
 import { SQSClient, SendMessageCommand, SendMessageCommandInput } from '@aws-sdk/client-sqs';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { Message, Update } from 'node-telegram-bot-api';
-import { messageHandlerEnvVars } from './constants';
+import { envVars } from './constants';
 
 const sqs = new SQSClient({});
 
 export const getUrlParamBlacklist = (): string[] => {
-  return JSON.parse(process.env[messageHandlerEnvVars.urlBlackList]!);
+  return JSON.parse(process.env[envVars.urlBlackList]!);
 };
 
 
 export const sendCleanedUrls = async (originalMessage: Message, cleanedUrls: string[]) => {
   try {
-    const messageQueueUrl = process.env[messageHandlerEnvVars.messageQueueUrl]!;
+    const messageQueueUrl = process.env[envVars.messageQueueUrl]!;
     let messageText: string;
 
     if (cleanedUrls.length === 1) {

@@ -501,6 +501,7 @@ exports[`LinkSanitizer stack 1`] = `
         "Environment": {
           "Variables": {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "TELEGRAM_TOKEN_PARAMETER_NAME": "MyToken",
           },
         },
         "Handler": "index.handler",
@@ -583,7 +584,7 @@ exports[`LinkSanitizer stack 1`] = `
                     {
                       "Ref": "AWS::AccountId",
                     },
-                    ":parameter/link-sanitizer/telegram-token",
+                    ":parameter/MyToken",
                   ],
                 ],
               },

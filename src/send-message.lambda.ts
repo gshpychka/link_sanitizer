@@ -1,7 +1,7 @@
 import { SSMProvider } from '@aws-lambda-powertools/parameters/ssm';
 import { SQSEvent } from 'aws-lambda';
 import TelegramBot from 'node-telegram-bot-api';
-import { telegramTokenParameterName } from './constants';
+import { envVars } from './constants';
 
 
 const parametersProvider = new SSMProvider();
@@ -9,7 +9,7 @@ const parametersProvider = new SSMProvider();
 export const getTelegramToken = async (): Promise<string> => {
   try {
     const token = await parametersProvider.get(
-      telegramTokenParameterName, { decrypt: true, maxAge: 60 * 60 * 24 },
+      process.env[envVars.telegramTokenParameterName]!, { decrypt: true, maxAge: 60 * 60 * 24 },
     ) ?? null;
     if (!token) {
       throw new Error('Token is empty');
@@ -17,7 +17,7 @@ export const getTelegramToken = async (): Promise<string> => {
       return token;
     }
   } catch (err) {
-    console.error(`Error getting parameter ${telegramTokenParameterName}`);
+    console.error('Error getting parameter');
     throw err;
   }
 };

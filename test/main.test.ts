@@ -1,11 +1,12 @@
 import { App } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
-import { messageHandlerEnvVars } from '../src/constants';
+import { envVars } from '../src/constants';
 import { LinkSanitizer } from '../src/main';
 
 test('LinkSanitizer stack', () => {
   const app = new App();
-  const stack = new LinkSanitizer(app, 'test');
+  const tokenParameterName = 'MyToken';
+  const stack = new LinkSanitizer(app, 'test', { telegramTokenParameterName: tokenParameterName });
 
   const template = Template.fromStack(stack);
 
@@ -35,7 +36,7 @@ test('LinkSanitizer stack', () => {
 
   // Check URL_BLACK_LIST is a JSON array of strings
   const urlBlackList = JSON.parse(
-    messageHandlerLambda.Properties.Environment.Variables[messageHandlerEnvVars.urlBlackList],
+    messageHandlerLambda.Properties.Environment.Variables[envVars.urlBlackList],
   );
   expect(Array.isArray(urlBlackList)).toBe(true);
   urlBlackList.forEach((item: string) => {
@@ -44,9 +45,15 @@ test('LinkSanitizer stack', () => {
 
   expect(
     messageHandlerLambda.Properties.Environment.Variables[
-      messageHandlerEnvVars.messageQueueUrl
+      envVars.messageQueueUrl
     ],
   ).toEqual({ Ref: queueId });
+
+  expect(
+    messageSenderLambda.Properties.Environment.Variables[
+      envVars.telegramTokenParameterName
+    ],
+  ).toEqual(tokenParameterName);
 
   const eventSourceMappings = template.findResources('AWS::Lambda::EventSourceMapping', {
     Properties: {

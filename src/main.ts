@@ -4,27 +4,28 @@ import * as event_sources from 'aws-cdk-lib/aws-lambda-event-sources';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import { Construct } from 'constructs';
-import { telegramTokenParameterName, messageHandlerEnvVars } from './constants';
+import { envVars } from './constants';
 import { HandleMessageFunction } from './handle-message-function';
 import { SendMessageFunction } from './send-message-function';
 
 interface LinkSanitizerProps extends StackProps {
+  telegramTokenParameterName: string;
 }
 export class LinkSanitizer extends Stack {
-  private readonly telegram_token_parameter: ssm.IStringParameter;
-  constructor(scope: Construct, id: string, props: LinkSanitizerProps = {}) {
+  private readonly telegramToken: ssm.IStringParameter;
+  constructor(scope: Construct, id: string, props: LinkSanitizerProps) {
     super(scope, id, props);
 
-    this.telegram_token_parameter = ssm.StringParameter.fromSecureStringParameterAttributes(
+    this.telegramToken = ssm.StringParameter.fromSecureStringParameterAttributes(
       this, 'TelegramToken', {
-        parameterName: telegramTokenParameterName,
+        parameterName: props.telegramTokenParameterName,
       });
 
     const messageQueue = new sqs.Queue(this, 'MessageQueue');
 
     const messageHandler = new HandleMessageFunction(this, 'Handler', {
       environment: {
-        [messageHandlerEnvVars.urlBlackList]: JSON.stringify(
+        [envVars.urlBlackList]: JSON.stringify(
           [
             'utm_source',
             'utm_medium',
@@ -42,16 +43,19 @@ export class LinkSanitizer extends Stack {
             'hsCtaTracking',
             't',
           ]),
-        [messageHandlerEnvVars.messageQueueUrl]: messageQueue.queueUrl,
+        [envVars.messageQueueUrl]: messageQueue.queueUrl,
       },
       retryAttempts: 0,
     });
 
     const messageSender = new SendMessageFunction(this, 'MessageSender', {
       retryAttempts: 0,
+      environment: {
+        [envVars.telegramTokenParameterName]: this.telegramToken.parameterName,
+      },
     });
 
-    this.telegram_token_parameter.grantRead(messageSender);
+    this.telegramToken.grantRead(messageSender);
 
     messageQueue.grantSendMessages(messageHandler);
 
@@ -65,6 +69,8 @@ export class LinkSanitizer extends Stack {
 
 const app = new App();
 
-new LinkSanitizer(app, 'LinkSanitizer');
+new LinkSanitizer(app, 'LinkSanitizer', {
+  telegramTokenParameterName: '/link-sanitizer/telegram-token',
+});
 
 app.synth();

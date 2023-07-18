@@ -1,5 +1,6 @@
 import { SQSEvent, SQSRecord } from 'aws-lambda';
 import TelegramBot, { Message } from 'node-telegram-bot-api';
+import { envVars } from '../src/constants';
 import * as handler from '../src/send-message.lambda';
 
 jest.spyOn(handler, 'getTelegramToken').mockImplementation(async () => 'testToken');
@@ -30,6 +31,10 @@ describe('handler function', () => {
   });
 
   it('should get Telegram token and process all records from the event', async () => {
+    // getTelegramToken is not being tested yet
+    // this is has no effect for now
+    // TODO: mock AWS SDK
+    process.env[envVars.telegramTokenParameterName] = 'MyToken';
     await handler.handler(sqsEvent);
 
     expect(handler.getTelegramToken).toHaveBeenCalled();
