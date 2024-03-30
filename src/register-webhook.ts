@@ -42,7 +42,7 @@ export class TelegramBotWebhook extends Construct {
       properties: {
         tokenParameterName: tokenParameterName,
         webhookURL: props.webhookUrl,
-      } as TelegramWebhookResourceProperties,
+      } satisfies TelegramWebhookResourceProperties,
     },
     );
   }
