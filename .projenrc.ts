@@ -24,6 +24,10 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     `,
   },
   lambdaOptions: { runtime: awscdk.LambdaRuntime.NODEJS_22_X },
+  gitignore: [
+    '.direnv',
+    '.home',
+  ],
   // packageName: undefined,  /* The "name" in package.json. */
 });
 project.synth();

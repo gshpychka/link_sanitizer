@@ -1,0 +1,11 @@
+DefaultBrowser = "STDOUT"
+CustomBrowserPath = ""
+CustomSSOBrowserPath = "STDOUT"
+Ordering = ""
+ExportCredentialSuffix = ""
+CredentialProcessAutoLogin = true
+
+[AWSConsoleBrowserLaunchTemplate]
+  Command = ""
+
+[Keyring]

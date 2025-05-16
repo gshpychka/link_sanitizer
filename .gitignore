@@ -30,6 +30,10 @@ jspm_packages/
 *.tgz
 .yarn-integrity
 .cache
+.direnv
+.home
+!.home/.aws/config
+!.home/.granted/config
 /test-reports/
 junit.xml
 /coverage/
