@@ -17,7 +17,7 @@ export class RegisterWebhookFunction extends lambda.Function {
     super(scope, id, {
       description: 'src/register-webhook.lambda.ts',
       ...props,
-      runtime: new lambda.Runtime('nodejs16.x', lambda.RuntimeFamily.NODEJS),
+      runtime: new lambda.Runtime('nodejs22.x', lambda.RuntimeFamily.NODEJS),
       handler: 'index.handler',
       code: lambda.Code.fromAsset(path.join(__dirname, '../assets/register-webhook.lambda')),
     });

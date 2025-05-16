@@ -44,7 +44,7 @@
       "description": "Create a JavaScript bundle from src/handle-message.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/handle-message.lambda.ts --target=\"node16\" --platform=\"node\" --outfile=\"assets/handle-message.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:aws-sdk"
+          "exec": "esbuild --bundle src/handle-message.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/handle-message.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/*"
         }
       ]
     },
@@ -53,7 +53,7 @@
       "description": "Continuously update the JavaScript bundle from src/handle-message.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/handle-message.lambda.ts --target=\"node16\" --platform=\"node\" --outfile=\"assets/handle-message.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:aws-sdk --watch"
+          "exec": "esbuild --bundle src/handle-message.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/handle-message.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --watch"
         }
       ]
     },
@@ -62,7 +62,7 @@
       "description": "Create a JavaScript bundle from src/register-webhook.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/register-webhook.lambda.ts --target=\"node16\" --platform=\"node\" --outfile=\"assets/register-webhook.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:aws-sdk"
+          "exec": "esbuild --bundle src/register-webhook.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/register-webhook.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/*"
         }
       ]
     },
@@ -71,7 +71,7 @@
       "description": "Continuously update the JavaScript bundle from src/register-webhook.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/register-webhook.lambda.ts --target=\"node16\" --platform=\"node\" --outfile=\"assets/register-webhook.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:aws-sdk --watch"
+          "exec": "esbuild --bundle src/register-webhook.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/register-webhook.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --watch"
         }
       ]
     },
@@ -80,7 +80,7 @@
       "description": "Create a JavaScript bundle from src/send-message.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/send-message.lambda.ts --target=\"node16\" --platform=\"node\" --outfile=\"assets/send-message.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:aws-sdk"
+          "exec": "esbuild --bundle src/send-message.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/send-message.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/*"
         }
       ]
     },
@@ -89,7 +89,7 @@
       "description": "Continuously update the JavaScript bundle from src/send-message.lambda.ts",
       "steps": [
         {
-          "exec": "esbuild --bundle src/send-message.lambda.ts --target=\"node16\" --platform=\"node\" --outfile=\"assets/send-message.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:aws-sdk --watch"
+          "exec": "esbuild --bundle src/send-message.lambda.ts --target=\"node22\" --platform=\"node\" --outfile=\"assets/send-message.lambda/index.js\" --tsconfig=\"tsconfig.dev.json\" --external:@aws-sdk/* --watch"
         }
       ]
     },
@@ -182,9 +182,13 @@
     "eslint": {
       "name": "eslint",
       "description": "Runs eslint against the codebase",
+      "env": {
+        "ESLINT_USE_FLAT_CONFIG": "false"
+      },
       "steps": [
         {
-          "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern src test build-tools projenrc .projenrc.ts"
+          "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern $@ src test build-tools projenrc .projenrc.ts",
+          "receiveArgs": true
         }
       ]
     },
@@ -275,28 +279,13 @@
       },
       "steps": [
         {
-          "exec": "pnpm update npm-check-updates"
-        },
-        {
-          "exec": "npm-check-updates --dep dev --upgrade --target=minor"
-        },
-        {
-          "exec": "npm-check-updates --dep optional --upgrade --target=minor"
-        },
-        {
-          "exec": "npm-check-updates --dep peer --upgrade --target=minor"
-        },
-        {
-          "exec": "npm-check-updates --dep prod --upgrade --target=minor"
-        },
-        {
-          "exec": "npm-check-updates --dep bundle --upgrade --target=minor"
+          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@aws-lambda-powertools/parameters,@aws-sdk/client-sqs,@aws-sdk/client-ssm,@types/aws-lambda,@types/jest,@types/node,@types/node-telegram-bot-api,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,jest,node-telegram-bot-api,projen,ts-jest,ts-node,typescript"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"
         },
         {
-          "exec": "pnpm update"
+          "exec": "pnpm update @aws-lambda-powertools/parameters @aws-sdk/client-sqs @aws-sdk/client-ssm @stylistic/eslint-plugin @types/aws-lambda @types/jest @types/node @types/node-telegram-bot-api @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk esbuild eslint-import-resolver-typescript eslint-plugin-import eslint jest jest-junit node-telegram-bot-api projen ts-jest ts-node typescript aws-cdk-lib constructs"
         },
         {
           "exec": "npx projen"

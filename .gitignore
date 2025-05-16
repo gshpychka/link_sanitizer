@@ -30,7 +30,6 @@ jspm_packages/
 *.tgz
 .yarn-integrity
 .cache
-!/.projenrc.js
 /test-reports/
 junit.xml
 /coverage/
@@ -54,3 +53,4 @@ junit.xml
 !/src/handle-message-function.ts
 !/src/register-webhook-function.ts
 !/src/send-message-function.ts
+!/.projenrc.ts

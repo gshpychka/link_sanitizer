@@ -42,7 +42,8 @@ export class LinkSanitizer extends Stack {
             '_hsenc',
             '_hsmi',
             'hsCtaTracking',
-            't',
+            // 't', // youtube timestamp?
+            'si',
           ]),
         [envVars.messageQueueUrl]: messageQueue.queueUrl,
       },

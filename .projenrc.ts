@@ -1,7 +1,7 @@
 import { awscdk } from 'projen';
 import { NodePackageManager } from 'projen/lib/javascript';
 const project = new awscdk.AwsCdkTypeScriptApp({
-  cdkVersion: '2.87.0',
+  cdkVersion: '2.196.0',
   defaultReleaseBranch: 'main',
   name: 'link_sanitizer',
   projenrcTs: true,
@@ -23,7 +23,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     # Telegram bot that stips tracking parameters from links
     `,
   },
-  lambdaOptions: { bundlingOptions: { externals: ['aws-sdk'] } },
+  lambdaOptions: { runtime: awscdk.LambdaRuntime.NODEJS_22_X },
   // packageName: undefined,  /* The "name" in package.json. */
 });
 project.synth();
