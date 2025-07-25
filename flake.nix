@@ -4,12 +4,17 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     systems.url = "github:nix-systems/default";
+    mcp-servers-nix = {
+      url = "github:natsukium/mcp-servers-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     {
       nixpkgs,
       systems,
+      mcp-servers-nix,
       ...
     }:
     let
@@ -19,9 +24,21 @@
       devShells = forEachSystem (
         system:
         let
-          pkgs = import nixpkgs { inherit system; };
+          pkgs = import nixpkgs {
+            inherit system;
+            config = {
+              allowUnfree = true;
+            };
+          };
           isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
           home = "$PRJ_ROOT/.home";
+          mcpConfig = mcp-servers-nix.lib.mkConfig pkgs {
+            fileName = ".mcp.json";
+            flavor = "claude";
+            programs = {
+              context7.enable = true;
+            };
+          };
         in
         {
           default = pkgs.mkShell {
@@ -40,7 +57,6 @@
                 (pkgs.writeShellScriptBin "cdk" "${pkgs.nodejs_24}/bin/npx --no cdk -- $@")
               ];
             shellHook = ''
-              export AWS_PROFILE=main
               export DOCKER_DEFAULT_PLATFORM=linux/amd64
               export PRJ_ROOT=$(pwd)
               ${
@@ -52,7 +68,14 @@
                 else
                   ""
               }
+
               export AWS_CONFIG_FILE=${home}/.aws/config
+
+              if [ -L ".mcp.json" ]; then
+                unlink .mcp.json
+              fi
+              ln -sf ${mcpConfig} .mcp.json
+
               echo "Link sanitizer loaded"
             '';
           };
