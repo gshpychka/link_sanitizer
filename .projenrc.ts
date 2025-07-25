@@ -27,6 +27,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   gitignore: [
     '.direnv',
     '.home',
+    '.mcp.json',
   ],
   // packageName: undefined,  /* The "name" in package.json. */
 });
