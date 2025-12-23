@@ -183,7 +183,8 @@
       "name": "eslint",
       "description": "Runs eslint against the codebase",
       "env": {
-        "ESLINT_USE_FLAT_CONFIG": "false"
+        "ESLINT_USE_FLAT_CONFIG": "false",
+        "NODE_NO_WARNINGS": "1"
       },
       "steps": [
         {
@@ -279,7 +280,7 @@
       },
       "steps": [
         {
-          "exec": "pnpm dlx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@aws-lambda-powertools/parameters,@aws-sdk/client-sqs,@aws-sdk/client-ssm,@types/aws-lambda,@types/jest,@types/node,@types/node-telegram-bot-api,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,jest,node-telegram-bot-api,projen,ts-jest,ts-node,typescript"
+          "exec": "pnpm dlx npm-check-updates@18 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@aws-lambda-powertools/parameters,@aws-sdk/client-sqs,@aws-sdk/client-ssm,@types/aws-lambda,@types/jest,@types/node,@types/node-telegram-bot-api,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,jest,node-telegram-bot-api,projen,ts-jest,ts-node,typescript"
         },
         {
           "exec": "pnpm i --no-frozen-lockfile"

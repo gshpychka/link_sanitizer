@@ -32,8 +32,6 @@ jspm_packages/
 .cache
 .direnv
 .home
-!.home/.aws/config
-!.home/.granted/config
 /test-reports/
 junit.xml
 /coverage/

@@ -214,6 +214,9 @@ exports[`LinkSanitizer stack 1`] = `
         "Apiproxy05443892",
         "ApiANY40671C4F",
       ],
+      "Metadata": {
+        "aws:cdk:do-not-refactor": true,
+      },
       "Properties": {
         "Description": "Automatically created by the RestApi construct",
         "RestApiId": {
@@ -386,7 +389,7 @@ exports[`LinkSanitizer stack 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "320694b6d3a6c6eaae3423cd0767e41b80ffba8bf73eaba34b4520856ac2222c.zip",
+          "S3Key": "3fb39208257389d45f4a31f8c0d32e598a0c14c4cd7dae44fd7f1022085f36d2.zip",
         },
         "Description": "src/handle-message.lambda.ts",
         "Environment": {
@@ -395,7 +398,7 @@ exports[`LinkSanitizer stack 1`] = `
             "MESSAGE_QUEUE_URL": {
               "Ref": "MessageQueue7A3BF959",
             },
-            "URL_PARAMETERS_BLACKLIST": "["utm_source","utm_medium","utm_campaign","utm_name","utm_term","utm_content","gclid","fbclid","igshid","mc_eid","mc_cid","_hsenc","_hsmi","hsCtaTracking","t"]",
+            "URL_PARAMETERS_BLACKLIST": "["utm_source","utm_medium","utm_campaign","utm_name","utm_term","utm_content","gclid","fbclid","igshid","mc_eid","mc_cid","_hsenc","_hsmi","hsCtaTracking","si"]",
           },
         },
         "Handler": "index.handler",
@@ -405,7 +408,7 @@ exports[`LinkSanitizer stack 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs22.x",
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -495,7 +498,7 @@ exports[`LinkSanitizer stack 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "ec11472755a90f53cb93da88511b310a7f680f286b2f03ab2d4dbedb44dce34d.zip",
+          "S3Key": "73cd73c5989b3fa706d3798a321ce98b2adb7c8b60cfc5cc4d270cf6c58786c5.zip",
         },
         "Description": "src/send-message.lambda.ts",
         "Environment": {
@@ -511,7 +514,7 @@ exports[`LinkSanitizer stack 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs22.x",
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -683,7 +686,7 @@ exports[`LinkSanitizer stack 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "be72627956082b34daea4dc38d5366dc878f5f239ab70fcac30e739998fa625f.zip",
+          "S3Key": "ee5728b7a0866e188eb62687d7742e5cf6f60d3184a2abcec8e7d32026d70395.zip",
         },
         "Description": "src/register-webhook.lambda.ts",
         "Environment": {
@@ -698,7 +701,7 @@ exports[`LinkSanitizer stack 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs22.x",
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -788,7 +791,7 @@ exports[`LinkSanitizer stack 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "f2d30cfc360482320a52a4fcde8a70f3569df79ab30be24650fda58eb60052cf.zip",
+          "S3Key": "07a90cc3efdfc34da22208dcd9d211f06f5b0e01b21e778edc7c3966b1f61d57.zip",
         },
         "Description": "AWS CDK resource provider framework - onEvent (test/Webhook/Provider)",
         "Environment": {
@@ -802,13 +805,17 @@ exports[`LinkSanitizer stack 1`] = `
           },
         },
         "Handler": "framework.onEvent",
+        "LoggingConfig": {
+          "ApplicationLogLevel": "FATAL",
+          "LogFormat": "JSON",
+        },
         "Role": {
           "Fn::GetAtt": [
             "WebhookProviderframeworkonEventServiceRole483AC2AF",
             "Arn",
           ],
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs22.x",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -873,6 +880,16 @@ exports[`LinkSanitizer stack 1`] = `
                   ],
                 },
               ],
+            },
+            {
+              "Action": "lambda:GetFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "WebhookHandler0697217E",
+                  "Arn",
+                ],
+              },
             },
           ],
           "Version": "2012-10-17",

@@ -30,14 +30,14 @@
               [
                 git
                 awscli2
-                nodejs_22
+                nodejs_24
                 nodePackages.pnpm
                 typescript
               ]
               ++ [
                 (pkgs.writeShellScriptBin "assume" "HOME=${home} source ${pkgs.granted}/bin/assume")
                 (pkgs.writeShellScriptBin "granted" "HOME=${home} ${pkgs.granted}/bin/granted $@")
-                (pkgs.writeShellScriptBin "cdk" "${pkgs.nodejs_20}/bin/npx --no cdk -- $@")
+                (pkgs.writeShellScriptBin "cdk" "${pkgs.nodejs_24}/bin/npx --no cdk -- $@")
               ];
             shellHook = ''
               export AWS_PROFILE=main
